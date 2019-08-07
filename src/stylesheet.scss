@@ -13,9 +13,12 @@ $color-circle-border: $color-red;
 $width-circle-margin: 10;
 $width-circle-border: 2;
 
-.app {
+body {
   background: $color-background;
+  margin: 0;
+}
 
+.app {
   circle {
     fill: none;
     stroke-width: $width-circle-border;
@@ -23,6 +26,10 @@ $width-circle-border: 2;
 
   .dot-circle {
     fill: $color-white;
+  }
+
+  .lissanjous-curve {
+    fill: none;
   }
 
   .stroke-red {

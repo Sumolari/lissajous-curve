@@ -3,6 +3,10 @@ import './stylesheet.scss'
 import * as d3 from 'd3'
 
 const svg = d3.select('svg')
+const framesUntilLoopIsRepeated = 720
+const maximumTrailLength = 360
+const framesPerTrailItem = Math.floor(framesUntilLoopIsRepeated / maximumTrailLength)
+
 const data = [0, 1, 2, 3, 4, 5, 6]
 const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'pink', 'purple']
 const speeds = [
@@ -18,12 +22,16 @@ const speeds = [
 interface CurveItem {
   idX: number
   idY: number
+  trail: ({
+    x: number
+    y: number
+  } | null)[]
 }
 
 const curvesData: CurveItem[] = []
 for (let idX = 0; idX < data.length; idX++) {
   for (let idY = 0; idY < data.length; idY++) {
-    curvesData.push({ idX, idY })
+    curvesData.push({ idX, idY, trail: new Array(maximumTrailLength) })
   }
 }
 
@@ -56,8 +64,10 @@ requestAnimationFrame(loop)
 
 function render (renderSettings: RenderSettings) {
   svg
-    .attr('preserveAspectRatio', 'xMinYMin meet')
-    .attr('viewBox', `0 0 960 500`)
+    .attr('preserveAspectRatio', 'xMidYMid meet')
+    .attr('viewBox', '0 0 890 890')
+    .attr('width', window.innerWidth)
+    .attr('height', window.innerHeight)
 
   const circleRadiusWithStroke = renderSettings.circleRadiusWithoutStroke - renderSettings.circleStroke / 2
 
@@ -89,12 +99,31 @@ function render (renderSettings: RenderSettings) {
   }
 
   const {
+    newPaths,
+    updatedPaths,
     newDotCircles,
     updatedDotCircles
   } = getCurves()
 
   const verticalPositioningFunctions = getCirclePositionFactory(renderSettings, Dimension.vertical)
   const horizontalPositioningFunctions = getCirclePositionFactory(renderSettings, Dimension.horizontal)
+
+  if (renderSettings.timestamp % framesPerTrailItem === 0) {
+    for (let idX = 0; idX < data.length; idX++) {
+      for (let idY = 0; idY < data.length; idY++) {
+        curvesData[idX * data.length + idY].trail[Math.floor(renderSettings.timestamp / framesPerTrailItem) % maximumTrailLength] = {
+          x: horizontalPositioningFunctions.dotCircleX(idX),
+          y: verticalPositioningFunctions.dotCircleY(idY)
+        }
+      }
+    }
+  }
+
+  newPaths
+    .attr('d', getPathDefinition)
+    
+  updatedPaths
+    .attr('d', getPathDefinition)
 
   newDotCircles
     .attr('r', renderSettings.dotRadius)
@@ -153,14 +182,23 @@ function getCurves () {
   
   const updatedGroups = groups
 
+  const newPaths = newGroups
+    .append('path')
+    .attr('class', (d) => `lissanjous-curve stroke-${colors[Math.max(d.idX, d.idY) % colors.length]}`)
+
   const newDotCircles = newGroups
     .append('circle')
     .attr('class', 'dot-circle')
+
+  const updatedPaths = groups
+    .selectAll('path.lissanjous-curve')
 
   const updatedDotCircles: d3.Selection<SVGCircleElement, CurveItem, d3.BaseType, unknown> = updatedGroups
     .selectAll('circle.dot-circle')
 
   return {
+    newPaths,
+    updatedPaths,
     newDotCircles,
     updatedDotCircles
   }
@@ -260,6 +298,18 @@ function getSpeedForDegreesPerSecond (degreesPerSecond: number) {
   const framesPerSecond = 60
   const degreesPerFrame = degreesPerSecond  / framesPerSecond
   return degreesPerFrame
+}
+
+function getPathDefinition (d: CurveItem) {
+  const definedTrail = d.trail.filter(d => d !== undefined)
+  if (definedTrail.length < 2) return
+
+  const [firstPoint, ...restPoints] = definedTrail
+
+  const firstOrder = `M ${firstPoint.x},${firstPoint.y}`
+  const restOrders = restPoints.map(({ x, y }) => `L ${x},${y}`).join(' ')
+
+  return `${firstOrder} ${restOrders}`
 }
 
 function counterFactory () {
