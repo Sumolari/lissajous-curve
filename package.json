@@ -1,7 +1,7 @@
 {
   "name": "lissajous-curve",
   "version": "1.0.0",
-  "description": "Lissanjous Curve demo based on https://twitter.com/singareddynm/status/1093143997755916288",
+  "description": "Lissajous Curve demo based on https://twitter.com/singareddynm/status/1093143997755916288",
   "author": "Lluís Ulzurrun de Asanza i Sàez <me@llu.is>",
   "license": "MIT",
   "scripts": {

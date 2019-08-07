@@ -184,14 +184,14 @@ function getCurves () {
 
   const newPaths = newGroups
     .append('path')
-    .attr('class', (d) => `lissanjous-curve stroke-${colors[Math.max(d.idX, d.idY) % colors.length]}`)
+    .attr('class', (d) => `lissajous-curve stroke-${colors[Math.max(d.idX, d.idY) % colors.length]}`)
 
   const newDotCircles = newGroups
     .append('circle')
     .attr('class', 'dot-circle')
 
   const updatedPaths = groups
-    .selectAll('path.lissanjous-curve')
+    .selectAll('path.lissajous-curve')
 
   const updatedDotCircles: d3.Selection<SVGCircleElement, CurveItem, d3.BaseType, unknown> = updatedGroups
     .selectAll('circle.dot-circle')
