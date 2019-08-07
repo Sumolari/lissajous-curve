@@ -1,0 +1,37 @@
+{
+  "name": "lissajous-curve",
+  "version": "1.0.0",
+  "description": "Lissanjous Curve demo based on https://twitter.com/singareddynm/status/1093143997755916288",
+  "author": "Lluís Ulzurrun de Asanza i Sàez <me@llu.is>",
+  "license": "MIT",
+  "scripts": {
+    "start": "webpack-dev-server --open",
+    "build": "webpack",
+    "lint": "eslint src"
+  },
+  "dependencies": {
+    "d3": "^5.9.7"
+  },
+  "devDependencies": {
+    "@types/d3": "^5.7.2",
+    "@typescript-eslint/eslint-plugin": "^1.13.0",
+    "@typescript-eslint/parser": "^1.13.0",
+    "css-loader": "^3.2.0",
+    "eslint": "^6.1.0",
+    "eslint-config-standard": "^13.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^1.0.0",
+    "ts-loader": "^6.0.4",
+    "typescript": "^3.5.3",
+    "webpack": "^4.39.1",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-middleware": "^3.7.0",
+    "webpack-dev-server": "^3.7.2"
+  }
+}

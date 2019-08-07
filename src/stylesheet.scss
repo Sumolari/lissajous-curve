@@ -1,0 +1,55 @@
+$color-red: #ab5062;
+$color-orange: #af735c;
+$color-yellow: #d0d596;
+$color-green: #70b270;
+$color-blue: #5dbdcd;
+$color-pink: #bf6895;
+$color-purple: #9f88ce;
+
+$color-white: #fff;
+$color-background: #2c2a2e;
+
+$color-circle-border: $color-red;
+$width-circle-margin: 10;
+$width-circle-border: 2;
+
+.app {
+  background: $color-background;
+
+  circle {
+    fill: none;
+    stroke-width: $width-circle-border;
+  }
+
+  .dot-circle {
+    fill: $color-white;
+  }
+
+  .stroke-red {
+    stroke: $color-red;
+  }
+
+  .stroke-orange {
+    stroke: $color-orange;
+  }
+
+  .stroke-yellow {
+    stroke: $color-yellow;
+  }
+
+  .stroke-green {
+    stroke: $color-green;
+  }
+
+  .stroke-blue {
+    stroke: $color-blue;
+  }
+
+  .stroke-pink {
+    stroke: $color-pink;
+  }
+
+  .stroke-purple {
+    stroke: $color-purple;
+  }
+}
