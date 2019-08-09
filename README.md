@@ -13,3 +13,7 @@ yarn start
 yarn --frozen-lockfile
 yarn build
 ```
+
+## Live Demo
+
+https://sumolari.github.io/lissajous-curve/
