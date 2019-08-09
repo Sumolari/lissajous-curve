@@ -20,12 +20,12 @@ const speeds = [
 ]
 
 interface CurveItem {
-  idX: number
-  idY: number
+  idX: number;
+  idY: number;
   trail: ({
-    x: number
-    y: number
-  } | null)[]
+    x: number;
+    y: number;
+  } | null)[];
 }
 
 const curvesData: CurveItem[] = []
@@ -43,11 +43,11 @@ enum Dimension {
 }
 
 interface RenderSettings {
-  circleRadiusWithoutStroke: number
-  circleMargin: number
-  circleStroke: number
-  dotRadius: number
-  timestamp: number
+  circleRadiusWithoutStroke: number;
+  circleMargin: number;
+  circleStroke: number;
+  dotRadius: number;
+  timestamp: number;
 }
 
 function loop () {
@@ -58,9 +58,9 @@ function loop () {
     circleStroke: 2,
     dotRadius: 4
   })
-  requestAnimationFrame(loop)
+  window.requestAnimationFrame(loop)
 }
-requestAnimationFrame(loop)
+window.requestAnimationFrame(loop)
 
 function render (renderSettings: RenderSettings) {
   svg
@@ -121,7 +121,7 @@ function render (renderSettings: RenderSettings) {
 
   newPaths
     .attr('d', getPathDefinition)
-    
+
   updatedPaths
     .attr('d', getPathDefinition)
 
@@ -151,17 +151,17 @@ function getCircles (dimension: Dimension) {
   const newOuterCircles = newGroups
     .append('circle')
     .attr('class', (d, idx) => `outer-circle stroke-${colors[idx]}`)
-  
+
   const updatedOuterCircles = updatedGroups
     .selectAll('circle.outer-circle')
-  
+
   const newDotCircles = newGroups
     .append('circle')
     .attr('class', 'dot-circle')
-  
+
   const updatedDotCircles = updatedGroups
     .selectAll('circle.dot-circle')
-  
+
   return {
     newOuterCircles,
     updatedOuterCircles,
@@ -179,7 +179,7 @@ function getCurves () {
     .enter()
     .append('g')
     .attr('class', 'curve')
-  
+
   const updatedGroups = groups
 
   const newPaths = newGroups
@@ -210,12 +210,12 @@ function getCirclePositionFactory (renderSettings: RenderSettings, dimension: Di
   const circleRadiusWithMargin = renderSettings.circleRadiusWithoutStroke + renderSettings.circleMargin
 
   const functionsForDimension: {[K in Dimension]: {
-    outerCircleX (d: number): number
-    outerCircleY (d: number): number
-    dotCircleX (d: number): number
-    dotCircleY (d: number): number
+    outerCircleX (d: number): number;
+    outerCircleY (d: number): number;
+    dotCircleX (d: number): number;
+    dotCircleY (d: number): number;
   }} = {
-    [Dimension.horizontal] : {
+    [Dimension.horizontal]: {
       outerCircleX: outerCircleXHorizontal,
       outerCircleY: outerCircleYHorizontal,
       dotCircleX: dotCircleXHorizontal,
@@ -225,7 +225,7 @@ function getCirclePositionFactory (renderSettings: RenderSettings, dimension: Di
       outerCircleX: outerCircleXVertical,
       outerCircleY: outerCircleYVertical,
       dotCircleX: dotCircleXVertical,
-      dotCircleY: dotCircleYVertical 
+      dotCircleY: dotCircleYVertical
     }
   }
 
@@ -235,11 +235,11 @@ function getCirclePositionFactory (renderSettings: RenderSettings, dimension: Di
     return circleDiameterWithMargin * (d + 1) + circleRadiusWithMargin
   }
 
-  function outerCircleYHorizontal (d: number) {
+  function outerCircleYHorizontal () {
     return circleRadiusWithMargin
   }
 
-  function outerCircleXVertical (d: number) {
+  function outerCircleXVertical () {
     return circleRadiusWithMargin
   }
 
@@ -249,30 +249,30 @@ function getCirclePositionFactory (renderSettings: RenderSettings, dimension: Di
 
   function dotCircleXHorizontal (d: number) {
     return (
-      circleDiameterWithMargin * (d + 1) + 
-      circleRadiusWithMargin + 
+      circleDiameterWithMargin * (d + 1) +
+      circleRadiusWithMargin +
       getOffsetFromCenter(renderSettings.timestamp, d, renderSettings.circleRadiusWithoutStroke).xOffset
     )
   }
 
   function dotCircleYHorizontal (d: number) {
     return (
-      outerCircleYHorizontal(d) +
+      outerCircleYHorizontal() +
       getOffsetFromCenter(renderSettings.timestamp, d, renderSettings.circleRadiusWithoutStroke).yOffset
     )
   }
 
   function dotCircleXVertical (d: number) {
     return (
-      outerCircleXVertical(d) + 
+      outerCircleXVertical() +
       getOffsetFromCenter(renderSettings.timestamp, d, renderSettings.circleRadiusWithoutStroke).xOffset
     )
   }
 
   function dotCircleYVertical (d: number) {
     return (
-      circleDiameterWithMargin * (d + 1) + 
-      circleRadiusWithMargin + 
+      circleDiameterWithMargin * (d + 1) +
+      circleRadiusWithMargin +
       getOffsetFromCenter(renderSettings.timestamp, d, renderSettings.circleRadiusWithoutStroke).yOffset
     )
   }
@@ -296,7 +296,7 @@ function getAngleInDegrees (timestamp: number, id: number) {
 
 function getSpeedForDegreesPerSecond (degreesPerSecond: number) {
   const framesPerSecond = 60
-  const degreesPerFrame = degreesPerSecond  / framesPerSecond
+  const degreesPerFrame = degreesPerSecond / framesPerSecond
   return degreesPerFrame
 }
 
